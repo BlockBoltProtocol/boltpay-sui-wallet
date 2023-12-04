@@ -1,6 +1,6 @@
 {
   "name": "@blockbolt/boltpay-wallet",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "BoltPay SDK for SUI wallet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
