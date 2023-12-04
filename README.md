@@ -1,157 +1,118 @@
-# Boltpay Wallet SDK for Sui Network
+## BlockBolt Payment
+The BoltPay SDK for the Sui Wallet App offers a highly beneficial and smoothly integrated feature set for Sui chain transactions. It provides a user-friendly and secure way for users to execute payments. The key features of this SDK include QR code scanning and payment request interpretation, allowing users to confirm payments effortlessly within their Sui wallet app. By handling transactions on the Sui chain, the BoltPay SDK ensures safe and reliable delivery of payments to the merchant's wallet.
 
-### What is BlockBolt Protocol
-
-BlockBolt is a decentralized payment protocol on the multichain. It offers seamless, secure, and efficient transactions for businesses and consumers, encouraging cryptocurrency adoption. BlockBolt provides an open-source SDK, plug-and-play services, and resources for developers to create or integrate payment solutions.
-
-The Boltpay SDK for the Sui wallet app is an advantageous feature that can be seamlessly incorporated. It enables users to conveniently and safely make payments on the Sui chain. With its QR code scanning and payment request interpretation features, users can conveniently confirm their payments directly within their Sui wallet app. The Boltpay SDK manages the transaction on the Sui chain, ensuring that the payment is safely delivered to the merchant's wallet.
 
 Please take a look at the sequence diagram that explains the process of the Boltpay SDK.
 
-![BlockBolt - Boltpay SDK Wallet Process](https://blockbolt.io/githubimages/boltpay-sdk-wallet-sui-network.jpg)
-
-- The process involves the following steps:
-- The user installs the Boltpay SDK using npm.
-- The Boltpay SDK confirms that it has been installed.
-- The user establishes a connection to the Sui network using the Boltpay SDK.
-- The Boltpay SDK connects to the Sui network.
-- The Sui network confirms that the connection has been established.
-- The Boltpay SDK informs the user that the connection has been established.
-- The user creates a transaction using the SDK.
-- The user sent a transaction request to the Sui network using the Boltpay SDK.
-- The Boltpay SDK receives a transaction response from the Sui network.
-- The Boltpay SDK confirms that the transaction has been created.
-
-## Boltpay SDK Documentation
-
-As a developer, you can make use of the Boltpay SDK for wallet, a powerful tool that allows seamless integration with the BlockBolt Payment Protocol. In this guide, you will be taken through the steps of setting up and utilizing the Boltpay SDK for transaction creation on the Sui blockchain.
-
-### Prerequisites
-
-#### Before starting, make sure that you have a signer set up on your Sui Wallet mobile application.
-
-To ensure successful transaction execution, it is essential to have a signer. This component is linked to your wallet and possesses the necessary credentials to authorize transactions. By using your own wallet's signer during the execution process, you affirm and authorize transactions, leading to successful completion. It is crucial to keep your signer secure to maintain your wallet's security.
-
-#### To obtain the QR code, a scanner is required. It is possible to use your personal scanner, but we suggest utilizing the one that has been provided.
-
-```bash
-npm i react-qr-reader
-```
-
-#### Furthermore, acquiring a fundamental comprehension of these programming languages and frameworks can help you fully utilize the capabilities of the Boltpay Wallet SDK.
-
-- React.js: A framework utilized for building user interfaces.
-- Next.js: It supports features like server-side rendering and static websites for React applications.
-- Vite: A build tool for modern web projects.
-- TypeScript: A statically typed superset of JavaScript that improves its scalability.
-- JavaScript: The primary language for web development.
+![BlockBolt - Boltpay SDK Wallet Process](https://camo.githubusercontent.com/09f79bb2179658a7adbd2823acb8c59ee3c873dbec7454d32e41a97f6e87cb4a/68747470733a2f2f626c6f636b626f6c742e696f2f676974687562696d616765732f626f6c747061792d73646b2d77616c6c65742d7375692d6e6574776f726b2e6a7067)
 
 ### Installation
 
-Installing the Boltpay SDK is straightforward using npm:
+- Compatible with Node.js and React-based applications.
+- Requires the `@blockbolt/boltpay-wallet` and `@mysten/sui.js` libraries for full functionality.
 
-Using npm:
-
-```bash
-npm i @blockbolt/boltpay-sui-wallet
-```
-
-### Establishing a Connection
-
-To get started, the first step is to connect to the Sui network using the BlockBolt Payment Protocol. The Boltpay SDK offers three pre-set connections to choose from: testnet, devnet, and mainnet.
-
-To obtain the essential details from a QR code, all you need to do is scan it with your Sui wallet. This will furnish you with the necessary values to initiate the transaction creation process.
+Install the SDK via npm, yarn or pnpm:
 
 ```bash
-const details = {
-      merchant_id: 123,
-      merchant_name: "MERCHANT_NAME",
-      merchant_address: "MERCHANT_ADDRESS",
-      merchant_amount: 1,
-      merchant_network: "testnet", // Options: mainnet, testnet, devnet
-    };
+npm install @blockbolt/boltpay-wallet
+    ##
+yarn add @blockbolt/boltpay-wallet  
+    ##
+pnpm install @blockbolt/boltpay-wallet
 ```
+### Prerequisites
 
-## **Creating a Transaction**
+You will need mysten js library to run the sdk
 
-To initiate a transaction, simply use the values obtained from the QR code and pass your wallet signer to the `createTransaction` field. This action will create the transaction for you.
-
-Here's an example of how you can do this:
+Install the SDK via npm, yarn or pnpm:
 
 ```bash
-import { createTransaction } from "@blockbolt/boltpay-sui-wallet";
-
-const handleTransaction = async () => {
-    const tx = createTransaction(signer, details);
-};
+npm install @mysten/sui.js
+    ##
+yarn add @mysten/sui.js  
+    ##
+pnpm install @mysten/sui.js    
 ```
 
-## **Errors & Responses**
 
-- 201 = Transaction successful.
-- 202 = Transaction failed.
-- 203 = Insufficient coin balance in your wallet.
-- 204 = The shared merchant address is incorrect.
-- 205 = We couldn't find anything.
+Usage
+The SDK provides two main functions: **createEcomTx** for generic E-commerce transactions and **createWoComTx** for WooCommerce-specific transactions.
 
-## **Testing on Local Machine - Running Locally**
+Importing the SDK 
 
-Running the SDK locally on your system without a wallet is possible, but it's not advisable for production environments. Therefore, we don't recommend it.
-
-## Prerequisites
-
-```bash
-  npm i @mysten/sui.js
+```jsx
+import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 ```
 
-## **Establishing a Connection**
-
-To get started, the first step is to connect to the Sui network using the BlockBolt Payment Protocol. The Boltpay SDK offers three pre-set connections to choose from: testnet, devnet, and mainnet.
-
-Here's how you can establish a connection to the mainnet:
-
-```bash
-import { Connection, JsonRpcProvider } from "@mysten/sui.js";
-
-export const mainnetConnection = new JsonRpcProvider(
-  new Connection({
-    fullnode: "https://wallet-rpc.mainnet.sui.io/",
-    faucet: "https://wallet-rpc.mainnet.sui.io/gas",
-  })
-);
+```jsx
+import { createEcomTx, createWoComTx, Ed25519Keypair } from '@blockbolt/boltpay-wallet';
 ```
 
-## **Creating a Transaction**
+## E-commerce Transactions (createEcomTx)
 
-In order to initiate a transaction, you must first generate a key pair from a phrase and create a signer using that information. Once the signer is established, it can be used to initiate the transaction.
+- `unique_id`: A unique, random numerical identifier for each transaction.
+- `merchantName`: The merchant's name for identifying the payment recipient.
+- `amount`: The value to be transferred in the transaction.
+- `receiverAddress`: The merchant's Sui wallet address for receiving the payment.
 
-Here's an example:
 
-```bash
-import { Ed25519Keypair, RawSigner, JsonRpcProvider } from "@mysten/sui.js";
-import { createTransaction } from "@blockbolt/boltpay-sui-wallet";
+**For demo purpose only** 
 
-const handleTransaction = async () => {
-    const details = {
-        merchant_id: 123,
-        merchant_name: "MERCHANT_NAME",
-        merchant_address: "MERCHANT_ADDRESS",
-        merchant_amount: 1,
-        merchant_network: "testnet", // Options: mainnet, testnet, devnet
-    };
-
-    const phrase = "YOUR_SEED_PHRASE";
-    const keyPair = Ed25519Keypair.deriveKeypair(phrase, "m/44'/784'/0'/0'/0'");
-    const provider: JsonRpcProvider = new JsonRpcProvider(testnetConnection);
-    const signer: RawSigner = new RawSigner(keyPair, provider)
-
-    const tx = createTransaction(signer, details);
-    console.log(tx)
-};
+```tsx
+const phrase = "your seed phrase"; // Securely retrieve the seed phrase
+const keyPair = Ed25519Keypair.deriveKeypair(phrase, "m/44'/784'/0'/0'/0'");
 ```
 
-**For the sake of security, it is highly advisable to store confidential details like your seed phrase and private keys in a .env file or opt for other secure environment variable solutions. These are not part of your codebase and remain confidential.**
+To ensure secure transactions on the Sui chain, wallet providers should use their secure transfer method to pass the signer to the createEcomTx or createWoComTx function for initiating transactions. This approach guarantees adherence to security best practices, thereby maintaining the integrity and safety of the transaction process.
+
+Example Usage
+
+```jsx
+const response = await createEcomTx({
+    signer: keyPair, // here you can pass the wallet signer or for test you can use like above example
+    unique_id: randomId, // Replace with a unique identifier
+    name: Merchant Name,  // Replace with the merchant name
+    amount: Price,      // Replace with the transaction amount
+    receiverAddress: Merchant Address, // Replace with the merchant's address
+    networkType: "testnet" // "testnet", "devnet", or "mainnet"
+});
+```
+
+## WooCommerce Transactions (createWoComTx)
+
+- `unique_id`: A unique, random numerical identifier for each transaction.
+- `merchantName`: The merchant's name for identifying the payment recipient.
+- `amount`: The value to be transferred in the transaction.
+- `receiverAddress`: The merchant's Sui wallet address for receiving the payment.
+
+Example Usage
+
+```jsx
+const responseWoCom = await createWoComTx({
+    signer: keyPair, // here you can pass the walle signer or for test you can use like above example
+    unique_id: randomId, // Replace with a unique identifier
+    name: Merchant Name,  // Replace with the merchant name
+    amount: Price,      // Replace with the transaction amount
+    receiverAddress: Merchant Address, // Replace with the merchant's address
+    networkType: "testnet" // "testnet", "devnet", or "mainnet"
+});
+```
+
+In the provided example for the createEcomTx & createWoComTx function, the code snippet demonstrates how a transaction can be created and executed. It's important to understand that the part of the code dealing with the Ed25519Keypair is included solely for demonstration purposes.
+
+
+ ## Erros & Response
+- PHASE 201 =  "Transaction Success";
+- PHASE 202 =  "Transaction Fail";
+- PHASE 203 =  "InsufficientCoinBalance in your wallet";
+- PHASE 204 =  "No response or transaction data received"
+- PHASE 205 =  "The shared merchant address is not correct";
+
+#### Best Practices
+**Security**: Avoid hardcoding sensitive information like seed phrases. Always retrieve them from a secure and encrypted source.
+**Key Management**: Especially in client-side applications, use pre-derived signer for enhanced security.
+**Additional Information**: Make sure to replace placeholders in the code examples with actual data from your application.
 
 **Disclaimer: Please note that the BlockBolt protocol relies solely on blockchain verification for payment confirmation and process.**
 
-**Do you encounter any issues or require assistance? Kindly send us an email at support@blockbolt.io or submit a support ticket on our Discord server https://discord.gg/Fb8CA6ny67. We are ready to help you out.**
+**Do you encounter any issues or require assistance? Kindly send us an email at support@blockbolt.io or submit a support ticket on our Discord server https://discord.gg/Fb8CA6ny67. We are happy to help you.**
