@@ -1,18 +1,27 @@
 {
   "name": "@blockbolt/boltpay-wallet",
-  "version": "1.0.6",
-  "description": "BoltPay SDK for SUI wallet",
+  "version": "1.0.7",
+  "description": "BlockBolt package for SUI wallet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "modules": "dist/index.mjs",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "build": "rm -rf dist && tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BlockBoltProtocol/boltpay-sui-wallet.git"
+    "build": "rm -rf dist && tsc",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "keywords": [
+    "sui",
+    "blockchain",
+    "sdk",
+    "typescript",
     "Decentralized Payment Gateway",
     "Crypto Payment",
     "BlockBolt Protocol",
@@ -21,14 +30,21 @@
   ],
   "author": "Blockbolt Protocol <support@blockbolt.io>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlockBoltProtocol/boltpay-sui-wallet.git"
+  },
   "bugs": {
     "url": "https://github.com/BlockBoltProtocol/boltpay-sui-wallet/issues"
   },
   "homepage": "https://github.com/BlockBoltProtocol/boltpay-sui-wallet#readme",
-  "devDependencies": {
-    "typescript": "^5.2.2"
-  },
   "dependencies": {
-    "@mysten/sui.js": "^0.46.1"
+    "@mysten/sui": "^1.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "@mysten/sui": "^1.11.0"
   }
 }
