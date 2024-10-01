@@ -1,9 +1,29 @@
-.DS_Store
-node_modules
+ 
 *.sock
-.idea
-.vscode/
-coverage/
-dist
 package-lock.json
+
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Logs
+*.log
+
+# Environment variables
 .env
+
+# IDE files
+.vscode
+.idea
+
+# OS files
+.DS_Store
+
+# Test coverage
+coverage
+
+# Misc
+*.swp
+*.swo

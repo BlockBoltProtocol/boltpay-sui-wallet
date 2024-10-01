@@ -1,7 +1,29 @@
-.nyc_output/
-coverage/
-node_modules/
-.idea/
-.vscode/
-package-lock.json
+# Source
 src
+
+# Tests
+__tests__
+*.spec.ts
+*.test.ts
+
+# Config files
+tsconfig.json
+.eslintrc.js
+.prettierrc
+jest.config.js
+
+# Git files
+.gitignore
+.git
+
+# IDE files
+.vscode
+.idea
+
+# Logs
+*.log
+
+# Misc
+.DS_Store
+node_modules
+coverage
