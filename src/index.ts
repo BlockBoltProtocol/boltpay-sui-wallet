@@ -1,1 +1,4 @@
-export * from "./blockchains/index";
+import { BlockBolt } from './blockbolt';
+export { BlockBolt };
+
+export * from './types';
