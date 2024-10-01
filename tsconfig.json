@@ -1,18 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",
     "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "removeComments": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
-    "incremental": true,
-    "resolveJsonModule": true,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "declaration": true,
-    "baseUrl": "./",
+    "declarationMap": true,
+    "sourceMap": true,
     "outDir": "./dist",
-  }
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
