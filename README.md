@@ -1,118 +1,178 @@
-## BlockBolt Payment
-The BoltPay SDK for the Sui Wallet App offers a highly beneficial and smoothly integrated feature set for Sui chain transactions. It provides a user-friendly and secure way for users to execute payments. The key features of this SDK include QR code scanning and payment request interpretation, allowing users to confirm payments effortlessly within their Sui wallet app. By handling transactions on the Sui chain, the BoltPay SDK ensures safe and reliable delivery of payments to the merchant's wallet.
+# BlockBolt SDK
 
+The BlockBolt SDK for the Sui Wallet App offers a highly beneficial and smoothly integrated feature set for Sui chain transactions. It provides a user-friendly and secure way for users to execute payments. The key features of this SDK include QR code scanning and payment request interpretation, allowing users to confirm payments effortlessly within their Sui wallet app. By handling transactions on the Sui chain, the BlockBolt SDK ensures safe and reliable delivery of payments to the merchant's wallet.
 
-Please take a look at the sequence diagram that explains the process of the Boltpay SDK.
+## Table of Contents
 
-![BlockBolt - Boltpay SDK Wallet Process](https://camo.githubusercontent.com/09f79bb2179658a7adbd2823acb8c59ee3c873dbec7454d32e41a97f6e87cb4a/68747470733a2f2f626c6f636b626f6c742e696f2f676974687562696d616765732f626f6c747061792d73646b2d77616c6c65742d7375692d6e6574776f726b2e6a7067)
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Supported Coins](#supported-coins)
+- [Usage](#usage)
+  - [Initializing the SDK](#initializing-the-sdk)
+  - [Sending a Transaction](#sending-a-transaction)
+- [API Reference](#api-reference)
+- [Error Handling](#error-handling)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Installation
+## Installation
 
-- Compatible with Node.js and React-based applications.
-- Requires the `@blockbolt/boltpay-wallet` and `@mysten/sui.js` libraries for full functionality.
-
-Install the SDK via npm, yarn or pnpm:
+Install the BlockBolt SDK using npm:
 
 ```bash
 npm install @blockbolt/boltpay-wallet
-    ##
-yarn add @blockbolt/boltpay-wallet  
-    ##
-pnpm install @blockbolt/boltpay-wallet
 ```
-### Prerequisites
 
-You will need mysten js library to run the sdk
-
-Install the SDK via npm, yarn or pnpm:
+Or using yarn:
 
 ```bash
-npm install @mysten/sui.js
-    ##
-yarn add @mysten/sui.js  
-    ##
-pnpm install @mysten/sui.js    
+yarn add @blockbolt/boltpay-wallet
 ```
 
+## Dependencies
 
-Usage
-The SDK provides two main functions: **createEcomTx** for generic E-commerce transactions and **createWoComTx** for WooCommerce-specific transactions.
+BlockBolt SDK requires the `@mysten/sui` package as a peer dependency. Make sure to install it alongside the SDK:
 
-Importing the SDK 
-
-```jsx
-import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
+```bash
+npm install @mysten/sui
 ```
 
-```jsx
-import { createEcomTx, createWoComTx, Ed25519Keypair } from '@blockbolt/boltpay-wallet';
+Or using yarn:
+
+```bash
+yarn add @mysten/sui
 ```
 
-## E-commerce Transactions (createEcomTx)
+## Supported Coins
 
-- `unique_id`: A unique, random numerical identifier for each transaction.
-- `merchantName`: The merchant's name for identifying the payment recipient.
-- `amount`: The value to be transferred in the transaction.
-- `receiverAddress`: The merchant's Sui wallet address for receiving the payment.
+BlockBolt SDK currently supports the following coins:
 
+| Coin Name | Symbol | Decimals | Coin Type |
+|-----------|--------|----------|-----------|
+| USD Coin | USDC | 6 | 0x5d4b302506645c37ff133b98c4b50a5ae14841659738d6d733d59d0d217a93bf::coin::COIN |
+| Tether | USDT | 6 | 0xc060006111016b8a020ad5b33834984a437aaa7d3c74c18e09a95d48aceab08c::coin::COIN |
+| SCA Token | SCA | 9 | 0x7016aae72cfc67f2fadf55769c0a7dd54291a583b63051a5ed71081cce836ac6::sca::SCA |
+| Sacabum | SCB | 5 | 0x9a5502414b5d51d01c8b5641db7436d789fa15a245694b24aa37c25c2a6ce001::scb::SCB |
+| Buck USD | BUCK | 9 | 0xce7ff77a83ea0cb6fd39bd8748e2ec89a3f41e8efdc3f4eb123e0ca37b184db2::buck::BUCK |
+| Turbos | TURBOS | 9 | 0x5d1f47ea69bb0de31c313d7acf89b890dbb8991ea8e03c6c355171f84bb1ba4a::turbos::TURBOS |
+| FlowX | FLX | 8 | 0x6dae8ca14311574fdfe555524ea48558e3d1360d1607d1c7f98af867e3b7976c::flx::FLX |
+| NavX | NAVX | 9 | 0xa99b8952d4f7d947ea77fe0ecdcc9e5fc0bcab2841d6e2a5aa00c3044e5544b5::navx::NAVX |
+| FUD Token | FUD | 5 | 0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD |
 
-**For demo purpose only** 
+## Usage
 
-```tsx
-const phrase = "your seed phrase"; // Securely retrieve the seed phrase
+### Initializing the SDK
+
+First, import and initialize the BlockBolt SDK:
+
+```javascript
+import { BlockBolt } from '@blockbolt/boltpay-wallet';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+
+const sdk = new BlockBolt();
+```
+
+### Sending a Transaction
+
+To send a transaction, use the `send` method:
+
+```javascript
+const phrase = "your mnemonic phrase here";
 const keyPair = Ed25519Keypair.deriveKeypair(phrase, "m/44'/784'/0'/0'/0'");
-```
 
-To ensure secure transactions on the Sui chain, wallet providers should use their secure transfer method to pass the signer to the createEcomTx or createWoComTx function for initiating transactions. This approach guarantees adherence to security best practices, thereby maintaining the integrity and safety of the transaction process.
+const generateRandomBigInt = () => BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+const randomId = generateRandomBigInt();
 
-Example Usage
-
-```jsx
-const response = await createEcomTx({
-    signer: keyPair, // here you can pass the wallet signer or for test you can use like above example
-    unique_id: randomId, // Replace with a unique identifier
-    name: Merchant Name,  // Replace with the merchant name
-    amount: Price,      // Replace with the transaction amount
-    receiverAddress: Merchant Address, // Replace with the merchant's address
-    networkType: "testnet" // "testnet", "devnet", or "mainnet"
+const result = await sdk.send({
+    keyPair,
+    receiverAddr: "0xa2a0c531c0aecf0e96f2834e846422eb49e77fb50410cb9f09c797ba902ce752",
+    nameProduct: 'Coffee',
+    amount: 1000000, // Amount in smallest unit (e.g., 1 FUD with 5 decimals)
+    coinType: "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+    randomId: randomId
 });
+
+console.log('Transaction result:', result.digest);
 ```
 
-## WooCommerce Transactions (createWoComTx)
+## API Reference
 
-- `unique_id`: A unique, random numerical identifier for each transaction.
-- `merchantName`: The merchant's name for identifying the payment recipient.
-- `amount`: The value to be transferred in the transaction.
-- `receiverAddress`: The merchant's Sui wallet address for receiving the payment.
+### `BlockBolt.send(params)`
 
-Example Usage
+Sends a transaction on the Sui network.
 
-```jsx
-const responseWoCom = await createWoComTx({
-    signer: keyPair, // here you can pass the walle signer or for test you can use like above example
-    unique_id: randomId, // Replace with a unique identifier
-    name: Merchant Name,  // Replace with the merchant name
-    amount: Price,      // Replace with the transaction amount
-    receiverAddress: Merchant Address, // Replace with the merchant's address
-    networkType: "testnet" // "testnet", "devnet", or "mainnet"
-});
+Parameters:
+- `params.keyPair`: The Ed25519Keypair derived from the mnemonic phrase
+- `params.receiverAddr`: The recipient's address
+- `params.nameProduct`: Name or description of the product/service
+- `params.amount`: Amount to send (in the smallest unit of the coin)
+- `params.coinType`: The type of coin to send (use the full coin type string)
+- `params.randomId`: A random BigInt for transaction uniqueness
+
+Returns: A promise that resolves to the transaction result.
+
+## Error Handling
+
+The SDK uses custom error types for different scenarios. Always wrap your SDK calls in a try-catch block:
+
+```javascript
+try {
+    const result = await sdk.send(/* ... */);
+    // Handle successful transaction
+} catch (error) {
+    if (error instanceof MerchantFeeError) {
+        console.error('Merchant fee error:', error.message, 'Coin type:', error.coinType);
+    } else {
+        console.error('Transaction failed:', error);
+    }
+}
 ```
 
-In the provided example for the createEcomTx & createWoComTx function, the code snippet demonstrates how a transaction can be created and executed. It's important to understand that the part of the code dealing with the Ed25519Keypair is included solely for demonstration purposes.
+## Examples
 
+Here's a complete example of using the BlockBolt SDK:
 
- ## Erros & Response
-- PHASE 201 =  "Transaction Success";
-- PHASE 202 =  "Transaction Fail";
-- PHASE 203 =  "InsufficientCoinBalance in your wallet";
-- PHASE 204 =  "No response or transaction data received"
-- PHASE 205 =  "The shared merchant address is not correct";
+```typescript
+import { BlockBolt } from '@blockbolt/boltpay-wallet';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
-#### Best Practices
-**Security**: Avoid hardcoding sensitive information like seed phrases. Always retrieve them from a secure and encrypted source.
-**Key Management**: Especially in client-side applications, use pre-derived signer for enhanced security.
-**Additional Information**: Make sure to replace placeholders in the code examples with actual data from your application.
+const sdk = new BlockBolt();
 
-**Disclaimer: Please note that the BlockBolt protocol relies solely on blockchain verification for payment confirmation and process.**
+const phrase = "sui sui sui sui sui sui sui sui sui sui sui sui";
+const keyPair = Ed25519Keypair.deriveKeypair(phrase, "m/44'/784'/0'/0'/0'");
 
-**Do you encounter any issues or require assistance? Kindly send us an email at support@blockbolt.io or submit a support ticket on our Discord server https://discord.gg/Fb8CA6ny67. We are happy to help you.**
+const generateRandomBigInt = () => BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+
+const sendTransaction = async () => {
+    try {
+        const result = await sdk.send({
+            keyPair,
+            receiverAddr: "0xa2a0c531c0aecf0e96f2834e846422eb49e77fb50410cb9f09c797ba902ce752",
+            nameProduct: 'Coffee',
+            amount: 1000000, // 1 FUD (5 decimal places)
+            coinType: "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+            randomId: generateRandomBigInt()
+        });
+        
+        console.log('Transaction result:', result.digest);
+        
+        if (result.effects?.status.status === "success") {
+            console.log('Transaction successful');
+        } else {
+            console.log('Transaction failed:', result.effects?.status.error);
+        }
+    } catch (error) {
+        console.error('Transaction failed:', error);
+    }
+};
+
+sendTransaction();
+```
+
+## Best Practices
+Security: Avoid hardcoding sensitive information like seed phrases. Always retrieve them from a secure and encrypted source. Key Management: Especially in client-side applications, use pre-derived signer for enhanced security. Additional Information: Make sure to replace placeholders in the code examples with actual data from your application.
+
+Disclaimer: Please note that the BlockBolt protocol relies solely on blockchain verification for payment confirmation and process.
+
+Do you encounter any issues or require assistance? Kindly send us an email at support@blockbolt.io or submit a support ticket on our Discord server https://discord.gg/Fb8CA6ny67. We are happy to help you.
