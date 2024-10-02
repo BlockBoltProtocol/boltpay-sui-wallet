@@ -89,8 +89,8 @@ To send a transaction, use the `send` method. Most of the transaction details wi
 const qrCodeData = {
     receiverAddr: "0xa2a0c531c0aecf0e96f2834e846422eb49e77fb50410cb9f09c797ba902ce752",
     nameProduct: 'Coffee',
-    amount: 1000000, // Amount in smallest unit (e.g., 1 FUD with 5 decimals)
-    coinType: "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+    amount: 1000000000, // 1 SUI (9 decimal places)
+    coinType: "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",
     randomId: "123456789" // This will be a string in the QR code
 };
 
@@ -172,8 +172,8 @@ const sendTransaction = async () => {
             keyPair,
             receiverAddr: "0xa2a0c531c0aecf0e96f2834e846422eb49e77fb50410cb9f09c797ba902ce752",
             nameProduct: 'Coffee',
-            amount: 1000000, // 1 FUD (5 decimal places)
-            coinType: "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+            amount: 1000000000, // 1 SUI (9 decimal places)
+            coinType: "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",,
             randomId: generateRandomBigInt()
         });
         
