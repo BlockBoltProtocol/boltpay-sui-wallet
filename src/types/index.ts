@@ -15,7 +15,7 @@ export interface SendParams {
 }
 
 export interface InternalSendParams extends SendParams {
-    merchantFee: string;
+    treasury: string;
 }
   
 export interface SendResult {

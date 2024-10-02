@@ -143,8 +143,8 @@ try {
     const result = await sdk.send(/* ... */);
     // Handle successful transaction
 } catch (error) {
-    if (error instanceof MerchantFeeError) {
-        console.error('Merchant fee error:', error.message, 'Coin type:', error.coinType);
+    if (error instanceof TreasuryError) {
+        console.error('Treasury error:', error.message, 'Coin type:', error.coinType);
     } else {
         console.error('Transaction failed:', error);
     }

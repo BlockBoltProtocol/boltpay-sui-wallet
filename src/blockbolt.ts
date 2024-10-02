@@ -21,10 +21,10 @@ export class BlockBolt {
       }
     
     private async prepareInternalParams(params: SendParams): Promise<InternalSendParams> {
-        const merchantFee = await this.treasuryService.getMerchantFee(params.coinType);
+        const treasury = await this.treasuryService.getTreasury(params.coinType);
         return {
           ...params,
-          merchantFee,
+          treasury,
         };
       }
   

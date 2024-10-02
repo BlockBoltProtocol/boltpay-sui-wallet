@@ -2,20 +2,20 @@
 import { SuiClient } from '@mysten/sui/client';
 import { CONSTANTS } from '../utils/constant';
 
-class MerchantFeeError extends Error {
+class TreasuryError extends Error {
   constructor(message: string, public coinType: string) {
     super(message);
-    this.name = 'MerchantFeeError';
+    this.name = 'TreasuryError';
   }
 }
 
 export class TreasuryService {
   constructor(private client: SuiClient) {}
 
-  async getMerchantFee(coinType: string): Promise<string> {
+  async getTreasury(coinType: string): Promise<string> {
     try {
       if (coinType === CONSTANTS.SUI_COIN_TYPE) {
-        return CONSTANTS.SUI_TREASURY_FEE;
+        return CONSTANTS.SUI_TREASURY;
       }
 
       const response = await this.client.getObject({
@@ -25,12 +25,12 @@ export class TreasuryService {
 
       const content = response.data?.content as any;
       if (!content?.fields) {
-        throw new MerchantFeeError('Invalid database object structure', coinType);
+        throw new TreasuryError('Invalid database object structure', coinType);
       }
 
       const entries = content.fields.entries.fields.contents;
       if (!entries) {
-        throw new MerchantFeeError('No entries found in database object', coinType);
+        throw new TreasuryError('No entries found in database object', coinType);
       }
 
       const treasuryData = entries.map((entry: any) => ({
@@ -40,15 +40,15 @@ export class TreasuryService {
 
       const result = treasuryData.find((entry: { key: string; }) => entry.key === coinType);
       if (!result) {
-        throw new MerchantFeeError(`Merchant fee not found for ${coinType}`, coinType);
+        throw new TreasuryError(`TreasuryError not found for ${coinType}`, coinType);
       }
 
       return result.value;
     } catch (error) {
-      if (error instanceof MerchantFeeError) {
-        console.error(`MerchantFeeError: ${error.message} (CoinType: ${error.coinType})`);
+      if (error instanceof TreasuryError) {
+        console.error(`TreasuryError not found: ${error.message} (CoinType: ${error.coinType})`);
       } else {
-        console.error('Unexpected error in getMerchantFee:', error);
+        console.error('Unexpected error in getTreasury:', error);
       }
       throw error;
     }

@@ -15,7 +15,7 @@ export class TransactionService {
         typeArguments: [params.coinType],
         arguments: [
           tx.object(coin),
-          tx.object(params.coinType === CONSTANTS.SUI_COIN_TYPE ? CONSTANTS.SUI_TREASURY_FEE : params.merchantFee),
+          tx.object(params.coinType === CONSTANTS.SUI_COIN_TYPE ? CONSTANTS.SUI_TREASURY : params.treasury),
           tx.object(CONSTANTS.FEE_SETTING),
           tx.pure.string(params.nameProduct),
           tx.pure.address(params.receiverAddr),

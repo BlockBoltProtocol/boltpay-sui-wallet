@@ -1,6 +1,6 @@
 export const CONSTANTS = {
     FEE_SETTING: "0xe0bc6cd230a8821c23686e52ed1e86fbb9a258e0cfb348944014b5bf6c0acb6b", 
-    SUI_TREASURY_FEE: "0x94bac16186e626d8e4dbb938188119df8d46a360b8ef9995dc3cc1c6493eb2b2", // sui treasury mainnet
+    SUI_TREASURY: "0x94bac16186e626d8e4dbb938188119df8d46a360b8ef9995dc3cc1c6493eb2b2", // sui treasury mainnet
     DATABASE_OBJECT_ID: "0x8dd23c3e0be3c3caad8c2a3b500ece13a08932ddc5f8a64999a111da81990023", // mainnet database object id
     PACKAGE_ID: "0x54c49241a164d857b473ddb26045b2fc8a70a0f84f1e49dbe6654b48f0bf57d5", // mainnet package id
     MODULE_NAME: "blockbolt",
