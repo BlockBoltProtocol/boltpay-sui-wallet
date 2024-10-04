@@ -92,6 +92,8 @@ const qrCodeData = {
     amount: 1000000000, // 1 SUI (9 decimal places)
     coinType: "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",
     randomId: "123456789" // This will be a string in the QR code
+    senderAddr: "0x9d655392521726d0eb26915670f7a37fe78b6fe001d133280ddaf57e4428aae1" // Optional
+
 };
 
 try {
@@ -112,8 +114,10 @@ try {
     console.error('Transaction failed:', error);
 }
 ```
-
-Note: The `keyPair` is not included in the QR code data for security reasons. It should be managed securely within your application. All other transaction details are obtained from the QR code scan.
+Note: 
+- The `keyPair` is not included in the QR code data for security reasons. It should be managed securely within your application. 
+- The `senderAddr` is an optional field. If provided, it specifies that only this address can send the transaction. If not provided, anyone can pay.
+- All other transaction details are obtained from the QR code scan.
 
 The QR code will contain a JSON object with the necessary transaction details. Your application should parse this JSON and use it to populate the `send` method parameters.
 
@@ -131,6 +135,7 @@ Parameters:
 - `params.amount`: Amount to send (in the smallest unit of the coin)
 - `params.coinType`: The type of coin to send (use the full coin type string)
 - `params.randomId`: A random BigInt for transaction uniqueness
+- `params.senderAddr (optional)`: : The sender's address. If provided, only this address can send the transaction
 
 Returns: A promise that resolves to the transaction result.
 
@@ -163,7 +168,6 @@ const sdk = new BlockBolt();
 
 // Prepare keypair using sui SDK or Package (in practice, handle this securely)
 
-
 const generateRandomBigInt = () => BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
 
 const sendTransaction = async () => {
@@ -172,9 +176,10 @@ const sendTransaction = async () => {
             keyPair,
             receiverAddr: "0xa2a0c531c0aecf0e96f2834e846422eb49e77fb50410cb9f09c797ba902ce752",
             nameProduct: 'Coffee',
-            amount: 1000000000, // 1 SUI (9 decimal places)
-            coinType: "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",,
-            randomId: generateRandomBigInt()
+            amount: 1000000000, // 1 SUI (assuming 9 decimal places)
+            coinType: "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",
+            randomId: generateRandomBigInt(),
+            senderAddr: "0x9d655392521726d0eb26915670f7a37fe78b6fe001d133280ddaf57e4428aae1" // Optional
         });
         
         console.log('Transaction result:', result.digest);
@@ -189,14 +194,13 @@ const sendTransaction = async () => {
     }
 };
 
-sendTransaction();
 ```
 
 This example demonstrates:
 
 Importing and initializing the SDK
 Preparing a keypair (ensure secure handling in production)
-Sending a transaction with required parameters
+Sending a transaction with required parameters, including the optional senderAddr
 Handling the transaction result and potential errors
 
 Note: In a real-world scenario, many of these parameters would typically come from user input or a QR code scan.
