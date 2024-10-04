@@ -10,7 +10,8 @@ export interface SendParams {
     nameProduct: string;
     amount: number;
     coinType: string;
-    randomId: bigint;  
+    randomId: bigint;
+    senderAddr?: string;  
 
 }
 

@@ -16,6 +16,13 @@ export class BlockBolt {
     }
 
     async send(params: SendParams): Promise<SendResult> {
+
+        const derivedAddress = params.keyPair.getPublicKey().toSuiAddress();
+
+        if(params.senderAddr && params.senderAddr !== derivedAddress) {
+          throw new Error("The sender's address does not match the wallet address.")
+        }
+
         const internalParams = await this.prepareInternalParams(params);
         return this.transactionService.send(internalParams);
       }
