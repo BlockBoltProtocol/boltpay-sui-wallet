@@ -9,13 +9,34 @@ export class TransactionService {
     async send(params: InternalSendParams): Promise<SendResult> {
       const tx = new Transaction();
       const coin = this.getCoin(params.amount, params.coinType);
+
+      let treasury;
+
+      switch (params.coinType) {
+        case CONSTANTS.SUI_COIN_TYPE:
+          treasury = CONSTANTS.SUI_TREASURY
+          break;
+        case CONSTANTS.USDC_COIN_TYPE:
+          treasury = CONSTANTS.USDC_TREASURY
+          break;  
+        case CONSTANTS.WUSDC_COIN_TYPE:
+          treasury = CONSTANTS.WUSDC_TREASURY
+          break;
+        case CONSTANTS.USDT_COIN_TYPE:
+        treasury =CONSTANTS.USDT_TREASURY  
+          break;
+        default:
+          treasury = params.treasury;
+      }
+
+
   
       tx.moveCall({
         target: `${CONSTANTS.PACKAGE_ID}::${CONSTANTS.MODULE_NAME}::${CONSTANTS.FUNCTION_NAME}`,
         typeArguments: [params.coinType],
         arguments: [
           tx.object(coin),
-          tx.object(params.coinType === CONSTANTS.SUI_COIN_TYPE ? CONSTANTS.SUI_TREASURY : params.treasury),
+          tx.object(treasury),
           tx.object(CONSTANTS.FEE_SETTING),
           tx.pure.string(params.nameProduct),
           tx.pure.address(params.receiverAddr),
